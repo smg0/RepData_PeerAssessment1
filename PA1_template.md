@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 ## Introduction
 
@@ -17,7 +12,8 @@ individual collected during October and November of 2012.
 The data is contained in a single csv file: *activity.csv* and
 archived within the zip file: *activity.zip*.
 
-```{r}
+
+```r
 # Unzip the data archive
 unzip("activity.zip")
 
@@ -29,7 +25,8 @@ Once loaded, the data was modified to convert the date information
 into the native Date type and a column was added to indicate the day
 of the week the measurement was taken.
 
-```{r}
+
+```r
 # Transform the date column to the Date type
 data <- transform(data,date=as.Date(date,format="%Y-%m-%d"))
 
@@ -44,13 +41,15 @@ The total number of steps taken per days was determined by grouping
 the data by date and summing the number of steps. For this total,
 missing measurements were ignored.
 
-```{r}
+
+```r
 # Create a new data frame grouped by date containing the total number of steps
 # per day, ignoring missing measurements
 steps <- summarize(group_by(data,date),total_steps=sum(steps,na.rm=TRUE))
 ```
 The following histogram shows the total number of steps with a 500 step bin width.
-```{r}
+
+```r
 # Create a histogram of the total steps per day with 500 step bins
 library(ggplot2)
 qplot(total_steps,
@@ -61,18 +60,30 @@ qplot(total_steps,
       ylab="Count")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+
 The mean number of steps taken per day was determined by taking the mean of
 the *total_steps* measurement.
 
-```{r}
+
+```r
 mean(steps$total_steps,na.rm=TRUE)
+```
+
+```
+## [1] 9354.23
 ```
 
 The median number of steps taken per day was determined by taking the median of
 the *total_steps* measurement.
 
-```{r}
+
+```r
 median(steps$total_steps,na.rm=TRUE)
+```
+
+```
+## [1] 10395
 ```
 
 ## What is the average daily activity pattern?
@@ -81,7 +92,8 @@ The average daily activity pattern was determined by grouping each
 observation by 5 minute interval and averaging the number of
 steps. For this activity pattern, missing measurements were ignored.
 
-```{r}
+
+```r
 # Create a new data frame grouped by interval containing the mean steps per
 # interval
 interval <- summarize(group_by(data,interval),mean_steps=mean(steps,na.rm=TRUE))
@@ -90,7 +102,8 @@ interval <- summarize(group_by(data,interval),mean_steps=mean(steps,na.rm=TRUE))
 The following is the daily activity pattern for the mean steps per
 interval.
 
-```{r}
+
+```r
 # Create a line plot activity pattern
 qplot(interval,
       mean_steps,
@@ -100,24 +113,42 @@ qplot(interval,
       ylab="Mean Steps")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
+
 The interval containing the maximum number of steps:
 
-```{r}
+
+```r
 interval[interval$mean_steps == max(interval$mean_steps),]$interval
+```
+
+```
+## [1] 835
 ```
 
 ## Inputting missing values
 
 This data set contains a number of incomplete observations.
 
-```{r}
+
+```r
 sum(!complete.cases(data))
+```
+
+```
+## [1] 2304
 ```
 
 The number of missing values viewed per measurement:
 
-```{r}
+
+```r
 sapply(data,function(x) sum(is.na(x)))
+```
+
+```
+##       steps        date    interval day_of_week 
+##        2304           0           0           0
 ```
 
 ### Missing Data Strategy
@@ -129,7 +160,8 @@ example, if interval 60 was missing for an observation occuring on a
 Monday, the missing value was assigned the mean number of steps
 occurring on interval 60 for all Mondays in the data set.
 
-```{r}
+
+```r
 # Create a new data frame containing the mean interval steps for each day of
 # the week
 replacement <- summarize(group_by(data,day_of_week,interval),
@@ -151,7 +183,8 @@ stepsComplete <- summarize(group_by(stepsComplete,date),total_steps=sum(steps))
 
 The following histogram shows the total number of steps with a 500 step bin width.
 
-```{r}
+
+```r
 # Create a histogram of the total steps per day with 500 step bins
 library(ggplot2)
 qplot(total_steps,
@@ -162,18 +195,30 @@ qplot(total_steps,
       ylab="Count")
 ```
 
+![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
+
 The mean number of steps taken per day was determined by taking the mean of
 the *total_steps* measurement.
 
-```{r}
+
+```r
 mean(stepsComplete$total_steps,na.rm=TRUE)
+```
+
+```
+## [1] 10821.21
 ```
 
 The median number of steps taken per day was determined by taking the median of
 the *total_steps* measurement.
 
-```{r}
+
+```r
 median(stepsComplete$total_steps,na.rm=TRUE)
+```
+
+```
+## [1] 11015
 ```
 
 Both the mean and median number of total steps were greater than the
@@ -186,7 +231,8 @@ An additional column was added to the data to delineate weekday and
 weekend observations. The mean number of steps grouped by interval and
 type: weekend or weekday, was used to compare activity patterns.
 
-```{r}
+
+```r
 # Add a new column with either 'weekday' or 'weekend' corresponding to the day
 # of the week 
 data <- mutate(data,
@@ -205,7 +251,8 @@ The following activity patterns show that during weekdays there is
 more activity earlier in the day compared to the weekend. During the
 weekends there is more activity later in the day.
 
-```{r}
+
+```r
 qplot(interval,
       mean_steps,
       data=interval,
@@ -213,3 +260,5 @@ qplot(interval,
       xlab="Interval",
       ylab="Mean Steps") + facet_grid(type ~ .)
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
