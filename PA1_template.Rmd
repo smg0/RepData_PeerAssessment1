@@ -50,7 +50,7 @@ missing measurements were ignored.
 steps <- summarize(group_by(data,date),total_steps=sum(steps,na.rm=TRUE))
 ```
 The following histogram shows the total number of steps with a 500 step bin width.
-```{r}
+```{r histogram}
 # Create a histogram of the total steps per day with 500 step bins
 library(ggplot2)
 qplot(total_steps,
@@ -90,7 +90,7 @@ interval <- summarize(group_by(data,interval),mean_steps=mean(steps,na.rm=TRUE))
 The following is the daily activity pattern for the mean steps per
 interval.
 
-```{r}
+```{r activity_pattern}
 # Create a line plot activity pattern
 qplot(interval,
       mean_steps,
@@ -151,7 +151,7 @@ stepsComplete <- summarize(group_by(stepsComplete,date),total_steps=sum(steps))
 
 The following histogram shows the total number of steps with a 500 step bin width.
 
-```{r}
+```{r histogram_impute}
 # Create a histogram of the total steps per day with 500 step bins
 library(ggplot2)
 qplot(total_steps,
@@ -205,7 +205,7 @@ The following activity patterns show that during weekdays there is
 more activity earlier in the day compared to the weekend. During the
 weekends there is more activity later in the day.
 
-```{r}
+```{r weekday_vs_weekend}
 qplot(interval,
       mean_steps,
       data=interval,

@@ -60,7 +60,7 @@ qplot(total_steps,
       ylab="Count")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![](PA1_template_files/figure-html/histogram-1.png) 
 
 The mean number of steps taken per day was determined by taking the mean of
 the *total_steps* measurement.
@@ -113,7 +113,7 @@ qplot(interval,
       ylab="Mean Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-8-1.png) 
+![](PA1_template_files/figure-html/activity_pattern-1.png) 
 
 The interval containing the maximum number of steps:
 
@@ -195,7 +195,7 @@ qplot(total_steps,
       ylab="Count")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
+![](PA1_template_files/figure-html/histogram_impute-1.png) 
 
 The mean number of steps taken per day was determined by taking the mean of
 the *total_steps* measurement.
@@ -261,4 +261,4 @@ qplot(interval,
       ylab="Mean Steps") + facet_grid(type ~ .)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-17-1.png) 
+![](PA1_template_files/figure-html/weekday_vs_weekend-1.png) 
